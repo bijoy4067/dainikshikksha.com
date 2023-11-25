@@ -19,7 +19,7 @@
             :containerKey="$containerKey"
             :tree="$tree"
             :title="$title"
-            {{-- :icon="$icon" --}}
+            :icon="$icon"
         />
     @endforeach
 </ol>
