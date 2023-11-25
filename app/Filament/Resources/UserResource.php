@@ -39,7 +39,10 @@ class UserResource extends Resource
                     ->password()
                     ->required()
                     ->maxLength(255),
-                Select::make('roles')->multiple()->relationship('roles', 'name')
+                Select::make('roles')
+                    ->multiple()
+                    ->relationship('roles', 'name')
+                    ->preload()
             ]);
     }
 
