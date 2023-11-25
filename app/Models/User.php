@@ -40,7 +40,7 @@ class User extends Authenticatable implements FilamentUser, HasTenants, MustVeri
 
     public function canAccessPanel(Panel $panel): bool
     {
-        return $this->hasRole(['Super Admin', 'editor']);
+        return $this->hasRole(['Super Admin', 'editor', 'reporter']);
     }
 
     public function canAccessTenant(Model $tenant): bool
