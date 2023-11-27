@@ -12,7 +12,7 @@
     @foreach ($records ?? [] as $record)
         @php
             $title = $this->getTreeRecordTitle($record);
-            $icon = 'x-heroicon-s-light-bulb';
+            $icon = '';
         @endphp
         <x-filament-tree::tree.item
             :record="$record"

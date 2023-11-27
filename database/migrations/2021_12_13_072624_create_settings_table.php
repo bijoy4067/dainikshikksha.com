@@ -11,9 +11,9 @@ return new class() extends Migration
         Schema::create('settings', function (Blueprint $table): void {
             $table->id();
 
-            $table->string('group')->index();
-            $table->string('name');
-            $table->boolean('locked');
+            $table->string('group')->index()->unique();
+            $table->string('name')->unique();
+            $table->boolean('locked')->default(false)->change();
             $table->json('payload');
 
             $table->timestamps();
