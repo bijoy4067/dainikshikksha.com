@@ -16,6 +16,7 @@ class GeneralSettings extends Settings
     public $emails_bn;
     public $ads_en;
     public $ads_bn;
+    public $menu_links_en;
 
     public static function group(): string
     {

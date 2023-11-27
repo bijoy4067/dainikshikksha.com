@@ -10,6 +10,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Pages\SettingsPage;
 use Filament\Forms\Components\Section;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Tabs;
 use Filament\Forms\Components\Textarea;
 
@@ -43,6 +44,59 @@ class Settings extends SettingsPage
                                 Forms\Components\MarkdownEditor::make('ads_en')
                                     ->label('Ads English')
                                     ->default(null),
+                                Repeater::make('menu_links_en')
+                                    ->label('Menu Links English')
+                                    ->schema([
+                                        TextInput::make('label')->required(),
+                                        Select::make('target')
+                                            ->options([
+                                                '_self' => 'Current Page (_self)',
+                                                '_blank' => 'New Page (_blank)',
+                                            ])
+                                            ->default('_self'),
+                                        TextInput::make('link')->required()
+                                    ])
+                                    ->collapsible()
+                                    ->columns(3)
+                                    ->collapseAllAction(
+                                        fn (\Filament\Forms\Components\Actions\Action $action) => $action->label('Collapse all menu'),
+                                    )
+                                    ->itemLabel(fn (array $state): ?string => $state['label'] ?? null),
+                                Repeater::make('social_links_en')
+                                    ->schema([
+                                        TextInput::make('label')->required(),
+                                        Select::make('target')
+                                            ->options([
+                                                '_self' => 'Current Page (_self)',
+                                                '_blank' => 'New Page (_blank)',
+                                            ])
+                                            ->default('_self'),
+                                        TextInput::make('link')->required()
+                                    ])
+                                    ->collapsible()
+                                    ->columns(3)
+                                    ->collapseAllAction(
+                                        fn (\Filament\Forms\Components\Actions\Action $action) => $action->label('Collapse all menu'),
+                                    )
+                                    ->itemLabel(fn (array $state): ?string => $state['label'] ?? null),
+                                Repeater::make('footer_links_en')
+                                    ->schema([
+                                        TextInput::make('label')->required(),
+                                        Select::make('target')
+                                            ->options([
+                                                '_self' => 'Current Page (_self)',
+                                                '_blank' => 'New Page (_blank)',
+                                            ])
+                                            ->default('_self'),
+                                        TextInput::make('link')->required()
+                                    ])
+                                    ->collapsible()
+                                    ->columns(3)
+                                    ->collapseAllAction(
+                                        fn (\Filament\Forms\Components\Actions\Action $action) => $action->label('Collapse all menu'),
+                                    )
+                                    ->itemLabel(fn (array $state): ?string => $state['label'] ?? null),
+
                             ]),
                         Tabs\Tab::make('Bangla')
                             ->schema([
@@ -60,6 +114,57 @@ class Settings extends SettingsPage
                                 Forms\Components\MarkdownEditor::make('ads_bn')
                                     ->label('Ads Bangla')
                                     ->default(null),
+                                Repeater::make('menu_links_bn')
+                                    ->schema([
+                                        TextInput::make('label')->required(),
+                                        Select::make('target')
+                                            ->options([
+                                                '_self' => 'Current Page (_self)',
+                                                '_blank' => 'New Page (_blank)',
+                                            ])
+                                            ->default('_self'),
+                                        TextInput::make('link')->required()
+                                    ])
+                                    ->collapsible()
+                                    ->columns(3)
+                                    ->collapseAllAction(
+                                        fn (\Filament\Forms\Components\Actions\Action $action) => $action->label('Collapse all menu'),
+                                    )
+                                    ->itemLabel(fn (array $state): ?string => $state['label'] ?? null),
+                                Repeater::make('social_links_bn')
+                                    ->schema([
+                                        TextInput::make('label')->required(),
+                                        Select::make('target')
+                                            ->options([
+                                                '_self' => 'Current Page (_self)',
+                                                '_blank' => 'New Page (_blank)',
+                                            ])
+                                            ->default('_self'),
+                                        TextInput::make('link')->required()
+                                    ])
+                                    ->collapsible()
+                                    ->columns(3)
+                                    ->collapseAllAction(
+                                        fn (\Filament\Forms\Components\Actions\Action $action) => $action->label('Collapse all menu'),
+                                    )
+                                    ->itemLabel(fn (array $state): ?string => $state['label'] ?? null),
+                                Repeater::make('footer_links_bn')
+                                    ->schema([
+                                        TextInput::make('label')->required(),
+                                        Select::make('target')
+                                            ->options([
+                                                '_self' => 'Current Page (_self)',
+                                                '_blank' => 'New Page (_blank)',
+                                            ])
+                                            ->default('_self'),
+                                        TextInput::make('link')->required()
+                                    ])
+                                    ->collapsible()
+                                    ->columns(3)
+                                    ->collapseAllAction(
+                                        fn (\Filament\Forms\Components\Actions\Action $action) => $action->label('Collapse all menu'),
+                                    )
+                                    ->itemLabel(fn (array $state): ?string => $state['label'] ?? null),
                             ])
                     ])
                     ->columnSpan(2)
@@ -68,7 +173,8 @@ class Settings extends SettingsPage
     protected function getFooterWidgets(): array
     {
         return [
-            MenuWidget::class
+            //Filament tree menu weidget
+            //MenuWidget::class
         ];
     }
 }

@@ -31,8 +31,8 @@
             'rounded-l-lg border-r rtl:rounded-l rtl:border-r-0 rtl:border-l px-px',
             'bg-gray-50 border-gray-300 dark:bg-white/5 dark:border-white/10',
         ])>
-            {{-- <x-heroicon-m-ellipsis-vertical class="text-gray-400 dark:text-gray-500 w-4 h-4 -mr-2 rtl:mr-0 rtl:-ml-2"/> --}}
-            {{-- <x-heroicon-m-ellipsis-vertical class="text-gray-400 dark:text-gray-500 w-4 h-4"/> --}}
+            <x-heroicon-m-ellipsis-vertical class="text-gray-400 dark:text-gray-500 w-4 h-4 -mr-2 rtl:mr-0 rtl:-ml-2"/>
+            <x-heroicon-m-ellipsis-vertical class="text-gray-400 dark:text-gray-500 w-4 h-4"/>
         </button>
 
         <div class="dd-content dd-nodrag flex gap-1">
@@ -51,10 +51,10 @@
 
             <div @class(['dd-item-btns', 'hidden' => !count($children), 'flex items-center justify-center pl-3'])>
                 <button data-action="expand" @class(['hidden' => !$collapsed])>
-                    {{-- <x-heroicon-o-chevron-down class="text-gray-400 w-4 h-4" /> --}}
+                    <x-heroicon-o-chevron-down class="text-gray-400 w-4 h-4" />
                 </button>
                 <button data-action="collapse" @class(['hidden' => $collapsed])>
-                    {{-- <x-heroicon-o-chevron-up class="text-gray-400 w-4 h-4" /> --}}
+                    <x-heroicon-o-chevron-up class="text-gray-400 w-4 h-4" />
                 </button>
             </div>
         </div>

@@ -33,7 +33,7 @@ class TagResource extends Resource
 
     protected static ?string $navigationGroup = '';
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-m-squares-plus';
 
     protected static ?int $navigationSort = 1;
 

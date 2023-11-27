@@ -9,6 +9,7 @@ use Illuminate\Support\ServiceProvider;
 use Laravel\Socialite\Contracts\User as SocialiteUserContract;
 use DutchCodingCompany\FilamentSocialite\Facades\FilamentSocialite as FilamentSocialiteFacade;
 use DutchCodingCompany\FilamentSocialite\FilamentSocialite;
+use Filament\Support\Facades\FilamentIcon;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -38,5 +39,10 @@ class AppServiceProvider extends ServiceProvider
             'name' => $oauthUser->getName(),
             'email' => $oauthUser->getEmail(),
         ]));
+
+        FilamentIcon::register([
+            'panels::topbar.global-search.field' => 'fas-magnifying-glass',
+            'panels::sidebar.group.collapse-button' => 'fas-chevron-up',
+        ]);
     }
 }

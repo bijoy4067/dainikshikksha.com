@@ -25,7 +25,7 @@ class NewsResource extends Resource
     use Draftable;
     protected static ?string $model = News::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-s-pencil-square';
 
     public static function form(Form $form): Form
     {

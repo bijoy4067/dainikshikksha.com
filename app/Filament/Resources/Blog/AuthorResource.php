@@ -26,7 +26,7 @@ class AuthorResource extends FResource
 
     protected static ?string $navigationGroup = '';
 
-    protected static ?string $navigationIcon = 'heroicon-o-users';
+    protected static ?string $navigationIcon = 'heroicon-s-user-circle';
 
     protected static ?int $navigationSort = 2;
 
