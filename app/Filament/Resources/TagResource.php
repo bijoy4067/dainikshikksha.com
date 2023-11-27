@@ -83,7 +83,6 @@ class TagResource extends Resource
                     ->sortable(),
                 ColorColumn::make('color')
                     ->label('color'),
-                Tables\Columns\TextColumn::make('language'),
                 Tables\Columns\TextColumn::make('language')
                     ->getStateUsing(fn (Tag $record): string => $record->language == 0 ? 'en' : 'bn')
                     ->badge()

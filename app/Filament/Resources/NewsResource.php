@@ -133,7 +133,14 @@ class NewsResource extends Resource
             ->columns([
                 TextColumn::make('title')
                     ->description(fn (News $record): string => \Str::limit($record->description, 20, '...') ?? '...'),
-                // Column::make('user.name')
+                Tables\Columns\TextColumn::make('language')
+                    ->getStateUsing(fn (News $record): string => $record->language == 0 ? 'en' : 'bn')
+                    ->badge()
+                    ->color(fn (News $record): string => $record->language == 0 ? 'success' : 'warning'),
+                TextColumn::make('created_at')
+                    ->dateTime(),
+                TextColumn::make('updated_at')
+                    ->dateTime(),
             ])
             ->filters([
                 //
