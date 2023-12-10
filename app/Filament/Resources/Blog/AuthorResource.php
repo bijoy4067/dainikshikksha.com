@@ -34,7 +34,7 @@ class AuthorResource extends FResource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
+                Forms\Components\TextInput::make('title')
                     ->required(),
                 ColorPicker::make('color'),
                 Forms\Components\MarkdownEditor::make('bio')
@@ -44,20 +44,18 @@ class AuthorResource extends FResource
                     ->collection('authors')
                     ->responsiveImages(),
                 Forms\Components\Toggle::make('status')
-                    ->label('Status')
+                    ->label('Active')
                     ->default(true)
                     ->columnSpan('full'),
-                Forms\Components\Toggle::make('language')
-                    ->label(function (callable $get) {
-                        if ($get('language')) {
-                            return 'English';
-                        } else {
-                            return 'Bangla';
-                        }
-                    })
-                    ->default(false)
-                    ->id('language')
-                    ->columnSpan('full'),
+                \Filament\Forms\Components\Select::make('language')
+                    ->label('Language')
+                    ->options([
+                        'en' => 'English',
+                        'bn' => 'Bangla',
+                    ])
+                    ->default('en')
+                    ->id('language'),
+                // ->columnSpan('full'),
             ]);
     }
 
@@ -65,42 +63,34 @@ class AuthorResource extends FResource
     {
         return $table
             ->columns([
-                Tables\Columns\Layout\Split::make([
-                    SpatieMediaLibraryImageColumn::make('photo')
-                        ->collection('authors')
-                        ->conversion('thumb')
-                        ->circular(),
-                    Tables\Columns\Layout\Stack::make([
-                        Tables\Columns\TextColumn::make('name')
-                            ->searchable()
-                            ->sortable()
-                            ->weight('medium')
-                            ->alignLeft()
-                    ])->space(),
-                    ColorColumn::make('color')
-                        ->label('color'),
-                    Tables\Columns\TextColumn::make('language')
-                        ->getStateUsing(fn (Author $record): string => $record->language == 0 ? 'en' : 'bn')
-                        ->badge()
-                        ->color(fn (Author $record): string => $record->language == 0 ? 'success' : 'warning'),
-                    Tables\Columns\IconColumn::make('status')
-                        ->label('status')
-                        ->boolean(),
-                    // Tables\Columns\Layout\Stack::make([
-                    //     Tables\Columns\TextColumn::make('github_handle')
-                    //         ->icon('icon-github')
-                    //         ->label('GitHub')
-                    //         ->alignLeft(),
-
-                    //     Tables\Columns\TextColumn::make('twitter_handle')
-                    //         ->icon('icon-twitter')
-                    //         ->label('Twitter')
-                    //         ->alignLeft(),
-                    // ])->space(2),
-                ])->from('md'),
+                SpatieMediaLibraryImageColumn::make('photo')
+                    ->collection('authors')
+                    ->conversion('thumb')
+                    ->circular(),
+                Tables\Columns\TextColumn::make('title')
+                    ->searchable()
+                    ->sortable()
+                    ->weight('medium')
+                    ->alignLeft(),
+                ColorColumn::make('color')
+                    ->label('Color'),
+                \Filament\Tables\Columns\TextColumn::make('updated_at')
+                    ->label('Last Updated')
+                    ->dateTime(),
+                Tables\Columns\TextColumn::make('language')
+                    ->getStateUsing(fn (Author $record): string => $record->language == 'en' ? 'en' : 'bn')
+                    ->badge()
+                    ->color(fn (Author $record): string => $record->language == 'en' ? 'success' : 'warning'),
+                Tables\Columns\IconColumn::make('status')
+                    ->label('Active')
+                    ->boolean()
             ])
             ->filters([
-                //
+                \Filament\Tables\Filters\SelectFilter::make('language')
+                    ->options([
+                        'en' => 'English',
+                        'bn' => 'Bangla',
+                    ]),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
@@ -114,7 +104,8 @@ class AuthorResource extends FResource
                             ->warning()
                             ->send();
                     }),
-            ]);
+            ])
+            ->paginated([25]);;
     }
 
     public static function getRelations(): array

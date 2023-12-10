@@ -41,7 +41,7 @@ class TagResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
+                Forms\Components\TextInput::make('title')
                     ->required()
                     ->maxValue(50)
                     ->live(onBlur: true)
@@ -54,20 +54,17 @@ class TagResource extends Resource
                     ->unique(Tag::class, 'slug', ignoreRecord: true),
                 ColorPicker::make('color'),
                 Forms\Components\Toggle::make('status')
-                    ->label('Status')
+                    ->label('Active')
                     ->default(true)
                     ->columnSpan('full'),
-                Forms\Components\Toggle::make('language')
-                    ->label(function (callable $get) {
-                        if ($get('language')) {
-                            return 'English';
-                        } else {
-                            return 'Bangla';
-                        }
-                    })
-                    ->default(false)
-                    ->id('language')
-                    ->columnSpan('full'),
+                \Filament\Forms\Components\Select::make('language')
+                    ->label('Language')
+                    ->options([
+                        'en' => 'English',
+                        'bn' => 'Bangla',
+                    ])
+                    ->default('en')
+                    ->id('language'),
             ]);
     }
 
@@ -75,20 +72,20 @@ class TagResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name')
+                Tables\Columns\TextColumn::make('title')
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('slug')
                     ->searchable()
                     ->sortable(),
                 ColorColumn::make('color')
-                    ->label('color'),
+                    ->label('Color'),
                 Tables\Columns\TextColumn::make('language')
-                    ->getStateUsing(fn (Tag $record): string => $record->language == 0 ? 'en' : 'bn')
+                    ->getStateUsing(fn (Tag $record): string => $record->language == 'en' ? 'en' : 'bn')
                     ->badge()
-                    ->color(fn (Tag $record): string => $record->language == 0 ? 'success' : 'warning'),
+                    ->color(fn (Tag $record): string => $record->language == 'en' ? 'success' : 'warning'),
                 Tables\Columns\IconColumn::make('status')
-                    ->label('status')
+                    ->label('Active')
                     ->boolean(),
                 Tables\Columns\TextColumn::make('updated_at')
                     ->label('Last Updated')
@@ -97,8 +94,8 @@ class TagResource extends Resource
             ->filters([
                 SelectFilter::make('language')
                     ->options([
-                        1 => 'Bangla',
-                        0 => 'English',
+                        'en' => 'Bangla',
+                        'bn' => 'English',
                     ])
             ])
             ->actions([
@@ -109,7 +106,8 @@ class TagResource extends Resource
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
-            ]);
+            ])
+            ->paginated([25]);
     }
 
     public static function getPages(): array

@@ -11,13 +11,12 @@ return new class() extends Migration
         Schema::create('tags', function (Blueprint $table) {
             $table->id();
 
-            $table->json('name');
+            $table->json('title');
             $table->json('slug');
             $table->text('color', 10)->nullable();
             $table->boolean('language')->default(false);
             $table->boolean('status')->default(true);
             $table->string('type')->nullable();
-            $table->integer('order_column')->nullable();
 
             $table->timestamps();
         });

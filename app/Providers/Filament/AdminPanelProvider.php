@@ -28,15 +28,10 @@ class AdminPanelProvider extends PanelProvider
             ->default()
             ->id('admin')
             ->login(Login::class)
-            ->login()
-            // ->renderHook(
-            //     'panels::auth.login.form.after',
-            //     fn (): View => view('login'),
-            // )
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([
-                Pages\Dashboard::class,
+                //Pages\Dashboard::class,
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([
@@ -47,7 +42,7 @@ class AdminPanelProvider extends PanelProvider
                 'Shop',
                 'Blog',
             ])
-            ->databaseNotifications()
+            // ->databaseNotifications()
             ->middleware([
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,
@@ -64,6 +59,7 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->plugin(FilamentSpatieRolesPermissionsPlugin::make())
             ->plugin(FilamentSocialitePlugin::make())
-            ->profile();
+            ->profile()
+            ->globalSearch(false);
     }
 }

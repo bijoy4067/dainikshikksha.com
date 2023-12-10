@@ -19,11 +19,18 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Guava\FilamentDrafts\Admin\Resources\Concerns\Draftable;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\Filter;
+use Filament\Tables\Filters\SelectFilter;
 
 class NewsResource extends Resource
 {
     use Draftable;
     protected static ?string $model = News::class;
+    protected static ?string $slug = 'admin/news';
+
+    protected static ?string $recordTitleAttribute = 'name';
+
+    protected static ?string $navigationGroup = '';
 
     protected static ?string $navigationIcon = 'heroicon-s-pencil-square';
 
@@ -35,15 +42,9 @@ class NewsResource extends Resource
                     ->label('Title')
                     ->required()
                     ->maxValue(50)
-                    ->live(onBlur: true)
-                    ->afterStateUpdated(fn (string $operation, $state, Forms\Set $set) => $operation === 'create' ? $set('slug', \Str::slug($state)) : null),
-                Forms\Components\TextInput::make('slug')
-                    ->disabled()
-                    ->dehydrated()
-                    ->required()
-                    ->unique(News::class, 'slug', ignoreRecord: true, ignorable: fn ($record) => $record),
+                    ->live(onBlur: true),
                 Forms\Components\TextInput::make('social_title')
-                    ->label('Social Title')
+                    ->label('Seo Title')
                     ->maxValue(50)
                     ->live(onBlur: true),
                 Forms\Components\TextInput::make('sub_title')
@@ -59,23 +60,23 @@ class NewsResource extends Resource
                     ->default(null)
                     ->columnSpan('full'),
                 Forms\Components\MarkdownEditor::make('summery')
-                    ->label('Summery')
+                    ->label('Description')
                     ->default(null)
                     ->columnSpan('full'),
                 Forms\Components\MarkdownEditor::make('social_summery')
-                    ->label('Social Summery')
+                    ->label('Seo Description')
                     ->default(null)
                     ->columnSpan('full'),
                 Select::make('author_id')
-                    ->relationship(name: 'author', titleAttribute: 'name')
+                    ->relationship(name: 'author', titleAttribute: 'title')
                     ->preload(),
                 Select::make('category_id')
                     ->multiple()
-                    ->relationship(name: 'category', titleAttribute: 'name')
+                    ->relationship(name: 'category', titleAttribute: 'title')
                     ->preload(),
                 Select::make('tags_id')
                     ->multiple()
-                    ->relationship(name: 'tags', titleAttribute: 'name')
+                    ->relationship(name: 'tags', titleAttribute: 'title')
                     ->preload(),
                 Select::make('lead_position')
                     ->multiple()
@@ -110,19 +111,15 @@ class NewsResource extends Resource
                     ->id('show_featured_image')
                     ->label('Show Featured Image')
                     ->inline(),
-                Forms\Components\Toggle::make('language')
-                    ->inline()
-                    ->label(function (callable $get) {
-                        if ($get('language')) {
-                            return 'English';
-                        } else {
-                            return 'Bangla';
-                        }
-                    })
-                    ->default(false)
-                    ->id('language')
-                    ->columnSpan('full'),
-                Hidden::make('created_by')
+                \Filament\Forms\Components\Select::make('language')
+                    ->label('Language')
+                    ->options([
+                        'en' => 'English',
+                        'bn' => 'Bangla',
+                    ])
+                    ->default('en')
+                    ->id('language'),
+                Hidden::make('updated_by')
                     ->default(auth()->id()),
             ]);
     }
@@ -132,18 +129,37 @@ class NewsResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('title')
-                    ->description(fn (News $record): string => \Str::limit($record->description, 20, '...') ?? '...'),
+                    ->description(fn (News $record): string => \Str::limit($record->description, 20, '...') ?? '...')
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('language')
-                    ->getStateUsing(fn (News $record): string => $record->language == 0 ? 'en' : 'bn')
+                    ->getStateUsing(fn (News $record): string => $record->language == 'en' ? 'en' : 'bn')
                     ->badge()
-                    ->color(fn (News $record): string => $record->language == 0 ? 'success' : 'warning'),
+                    ->color(fn (News $record): string => $record->language == 'en' ? 'success' : 'warning'),
                 TextColumn::make('created_at')
                     ->dateTime(),
                 TextColumn::make('updated_at')
                     ->dateTime(),
             ])
             ->filters([
-                //
+                Filter::make('title')
+                    ->label('Title'),
+                SelectFilter::make('language')
+                    ->options([
+                        'en' => 'English',
+                        'bn' => 'bangla',
+                    ]),
+                SelectFilter::make('category_id')
+                    ->label('category')
+                    ->multiple()
+                    ->relationship('category', 'title'),
+                SelectFilter::make('tag_id')
+                    ->label('Tag')
+                    ->multiple()
+                    ->relationship('tag', 'title'),
+                SelectFilter::make('author_id')
+                    ->label('Author')
+                    ->relationship('author', 'title')
+                // ->attribute('category_id'),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
@@ -152,7 +168,8 @@ class NewsResource extends Resource
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
-            ]);
+            ])
+            ->paginated([25]);
     }
 
     public static function getRelations(): array

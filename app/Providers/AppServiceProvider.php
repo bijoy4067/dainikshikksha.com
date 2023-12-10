@@ -10,6 +10,8 @@ use Laravel\Socialite\Contracts\User as SocialiteUserContract;
 use DutchCodingCompany\FilamentSocialite\Facades\FilamentSocialite as FilamentSocialiteFacade;
 use DutchCodingCompany\FilamentSocialite\FilamentSocialite;
 use Filament\Support\Facades\FilamentIcon;
+use Filament\Http\Responses\Auth\Contracts\LoginResponse as LoginResponseContract;
+
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -44,5 +46,6 @@ class AppServiceProvider extends ServiceProvider
             'panels::topbar.global-search.field' => 'fas-magnifying-glass',
             'panels::sidebar.group.collapse-button' => 'fas-chevron-up',
         ]);
+        $this->app->bind(LoginResponseContract::class, \App\Http\Responses\LoginResponse::class);
     }
 }

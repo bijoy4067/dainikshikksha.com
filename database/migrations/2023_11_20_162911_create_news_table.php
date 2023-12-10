@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('news', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->string('slug');
             $table->string('social_title')->nullable();
             $table->string('sub_title')->nullable();
             $table->string('upper_title')->nullable();
@@ -32,8 +31,8 @@ return new class extends Migration
             $table->json('tag_id')->nullable();
             // $table->foreign('tag_id')->references('id')->on('tags')->onDelete('cascade');
 
-            $table->unsignedBigInteger('created_by');
-            $table->foreign('created_by')->references('id')->on('users')->onDelete('cascade');
+            $table->unsignedBigInteger('updated_by');
+            $table->foreign('updated_by')->references('id')->on('users')->onDelete('cascade');
 
             $table->json('lead_position')->nullable();
             $table->boolean('show_created_at')->default(1);

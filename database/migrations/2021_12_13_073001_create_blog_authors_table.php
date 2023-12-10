@@ -15,12 +15,12 @@ return new class() extends Migration
     {
         Schema::create('authors', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('title');
             $table->string('photo')->nullable();
             $table->longText('bio')->nullable();
             $table->text('color', 10)->nullable();
             $table->boolean('status')->default(true);
-            $table->boolean('language')->default(false);
+            $table->enum('language', ['en', 'bn'])->default(false);
             $table->timestamps();
         });
     }

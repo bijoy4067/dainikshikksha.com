@@ -5,6 +5,7 @@ namespace App\Filament\Resources\Blog;
 use App\Filament\Resources\Blog\CategoryResource\Pages;
 use App\Models\Category;
 use Filament\Forms;
+use Filament\Forms\Components\Card;
 use Filament\Forms\Form;
 use Filament\Infolists\Components\IconEntry;
 use Filament\Infolists\Components\TextEntry;
@@ -15,6 +16,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Support\Str;
 use Filament\Forms\Components\ColorPicker;
+use Filament\Forms\Components\TextInput;
 use Filament\Tables\Columns\ColorColumn;
 use Filament\Tables\Columns\Column;
 use Filament\Tables\Filters\Filter;
@@ -38,33 +40,25 @@ class CategoryResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
+                Forms\Components\TextInput::make('title')
                     ->required()
                     ->maxValue(50)
-                    ->live(onBlur: true)
-                    ->afterStateUpdated(fn (string $operation, $state, Forms\Set $set) => $operation === 'create' ? $set('slug', Str::slug($state)) : null),
-
-                Forms\Components\TextInput::make('slug')
-                    ->disabled()
-                    ->dehydrated()
-                    ->required()
-                    ->unique(Category::class, 'slug', ignoreRecord: true),
-                ColorPicker::make('color'),
+                    ->live(onBlur: true),
+                TextInput::make('seo_title'),
+                \Filament\Forms\Components\Textarea::make('seo_description')
+                    ->columnSpan('full'),
                 Forms\Components\Toggle::make('status')
-                    ->label('Status')
+                    ->label('Active')
                     ->default(true)
                     ->columnSpan('full'),
-                Forms\Components\Toggle::make('language')
-                    ->label(function (callable $get) {
-                        if ($get('language')) {
-                            return 'English';
-                        } else {
-                            return 'Bangla';
-                        }
-                    })
-                    ->default(false)
-                    ->id('language')
-                    ->columnSpan('full'),
+                \Filament\Forms\Components\Select::make('language')
+                    ->label('Language')
+                    ->options([
+                        'en' => 'English',
+                        'bn' => 'Bangla',
+                    ])
+                    ->default('en')
+                    ->id('language'),
             ]);
     }
 
@@ -72,21 +66,16 @@ class CategoryResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name')
+                Tables\Columns\TextColumn::make('title')
                     ->searchable()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('slug')
-                    ->searchable()
-                    ->sortable(),
-                ColorColumn::make('color')
-                    ->label('color'),
-                Tables\Columns\TextColumn::make('language'),
                 Tables\Columns\TextColumn::make('language')
-                    ->getStateUsing(fn (Category $record): string => $record->language == 0 ? 'en' : 'bn')
+                    ->getStateUsing(fn (Category $record): string => $record->language == 'en' ? 'en' : 'bn')
                     ->badge()
-                    ->color(fn (Category $record): string => $record->language == 0 ? 'success' : 'warning'),
+                    ->color(fn (Category $record): string => $record->language == 'en' ? 'success' : 'warning')
+                    ->sortable(),
                 Tables\Columns\IconColumn::make('status')
-                    ->label('status')
+                    ->label('Active')
                     ->boolean(),
                 Tables\Columns\TextColumn::make('updated_at')
                     ->label('Last Updated')
@@ -96,8 +85,8 @@ class CategoryResource extends Resource
 
                 SelectFilter::make('language')
                     ->options([
-                        1 => 'Bangla',
-                        0 => 'English',
+                        'en' => 'English',
+                        'bn' => 'Bangla',
                     ])
             ])
             ->actions([
@@ -113,7 +102,8 @@ class CategoryResource extends Resource
                             ->warning()
                             ->send();
                     }),
-            ]);
+            ])
+            ->paginated([25]);
     }
 
     public static function infolist(Infolist $infolist): Infolist
