@@ -89,13 +89,18 @@ class TagResource extends Resource
                     ->boolean(),
                 Tables\Columns\TextColumn::make('updated_at')
                     ->label('Last Updated')
+                    ->sortable()
+                    ->date(),
+                Tables\Columns\TextColumn::make('created_at')
+                    ->label('Created At')
+                    ->sortable()
                     ->date(),
             ])
             ->filters([
                 SelectFilter::make('language')
                     ->options([
-                        'en' => 'Bangla',
-                        'bn' => 'English',
+                        'bn' => 'Bangla',
+                        'en' => 'English',
                     ])
             ])
             ->actions([

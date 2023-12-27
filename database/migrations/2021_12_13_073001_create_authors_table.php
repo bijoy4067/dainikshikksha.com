@@ -20,7 +20,7 @@ return new class() extends Migration
             $table->longText('bio')->nullable();
             $table->text('color', 10)->nullable();
             $table->boolean('status')->default(true);
-            $table->enum('language', ['en', 'bn'])->default(false);
+            $table->enum('language', ['en', 'bn'])->default('en');
             $table->timestamps();
         });
     }

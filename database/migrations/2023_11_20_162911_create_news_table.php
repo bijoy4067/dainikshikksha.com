@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('sub_title')->nullable();
             $table->string('upper_title')->nullable();
 
-            $table->text('description')->nullable();
+            $table->text('news_body')->nullable();
             $table->text('summery')->nullable();
             $table->text('social_summery')->nullable();
 
@@ -38,7 +38,7 @@ return new class extends Migration
             $table->boolean('show_created_at')->default(1);
             $table->boolean('show_updated_at')->default(1);
             $table->boolean('show_featured_image')->default(1);
-            $table->boolean('language')->default(1);
+            $table->enum('language', ['en', 'bn'])->default('en');
 
             $table->drafts();
             $table->timestamps();

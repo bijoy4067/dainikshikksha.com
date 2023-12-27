@@ -176,7 +176,7 @@ return [
         App\Providers\Filament\AdminPanelProvider::class,
         App\Providers\Filament\AppPanelProvider::class,
         App\Providers\RouteServiceProvider::class,
-        \SocialiteProviders\Manager\ServiceProvider::class,
+        // \SocialiteProviders\Manager\ServiceProvider::class,
         SolutionForest\FilamentTree\FilamentTreeServiceProvider::class,
     ],
 

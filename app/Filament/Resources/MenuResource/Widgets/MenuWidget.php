@@ -37,10 +37,7 @@ class MenuWidget extends BaseWidget
     }
 
     // CUSTOMIZE ICON OF EACH RECORD, CAN DELETE
-    public function getTreeRecordIcon(?\Illuminate\Database\Eloquent\Model $record = null): ?string
-    {
-        return null;
-    }
+
 
     // CUSTOMIZE ACTION OF EACH RECORD, CAN DELETE 
     protected function getTreeActions(): array

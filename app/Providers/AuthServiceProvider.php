@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Filament\App\Pages\Settings;
 use App\Models\Author;
 use App\Models\Category;
 use App\Models\News;
@@ -14,6 +15,9 @@ use App\Policies\CategoryPolicy;
 use App\Policies\NewsPolicy;
 use App\Policies\TagPolicy;
 use App\Policies\UserPolicy;
+use App\Models\Settings as SettingModel;
+use App\Policies\SettingsPolicy;
+use App\Settings\GeneralSettings;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -27,7 +31,8 @@ class AuthServiceProvider extends ServiceProvider
         Category::class => CategoryPolicy::class,
         Tag::class => TagPolicy::class,
         News::class => NewsPolicy::class,
-        Author::class => AuthorPolicy::class
+        Author::class => AuthorPolicy::class,
+        GeneralSettings::class => SettingsPolicy::class
     ];
 
     /**

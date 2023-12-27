@@ -7,21 +7,17 @@ use Filament\Models\Contracts\HasTenants;
 use Filament\Panel;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Collection;
 use Laravel\Sanctum\HasApiTokens;
-use Spatie\Permission\Traits\HasRoles;
-use Althinect\FilamentSpatieRolesPermissions\Concerns\HasSuperAdmin;
 
-class User extends Authenticatable implements FilamentUser, HasTenants, MustVerifyEmail
+class User extends Authenticatable implements MustVerifyEmail, FilamentUser
 {
     use HasApiTokens;
     use HasFactory;
     use Notifiable;
-    use Hasroles;
-    // use HasSuperAdmin;
+    // use HasTenants;
 
     /**
      * @var array<int, string>
@@ -43,13 +39,24 @@ class User extends Authenticatable implements FilamentUser, HasTenants, MustVeri
         return $this->hasRole(['Super Admin', 'editor', 'reporter']);
     }
 
-    public function canAccessTenant(Model $tenant): bool
-    {
-        return true;
-    }
+    // public function getTenants(Panel $panel): array | Collection
+    // {
+    //     return Team::all();
+    // }
 
-    public function getTenants(Panel $panel): array | Collection
+    public function hasRole($role)
     {
-        return Team::all();
+        // dd($this, $role);
+        $can_access = false;
+        if (!is_array($role)) {
+            return false;
+        }
+        foreach ($role as $value) {
+            if ($this->role == $value) {
+                $can_access = true;
+            }
+        }
+
+        return $can_access;
     }
 }

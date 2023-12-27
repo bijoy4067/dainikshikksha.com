@@ -37,10 +37,6 @@ class AppServiceProvider extends ServiceProvider
         if (app()->environment('production')) {
             URL::forceScheme('https');
         }
-        FilamentSocialiteFacade::setCreateUserCallback(fn (SocialiteUserContract $oauthUser, FilamentSocialite $socialite) => $socialite->getUserModelClass()::create([
-            'name' => $oauthUser->getName(),
-            'email' => $oauthUser->getEmail(),
-        ]));
 
         FilamentIcon::register([
             'panels::topbar.global-search.field' => 'fas-magnifying-glass',

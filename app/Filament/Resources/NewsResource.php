@@ -55,8 +55,8 @@ class NewsResource extends Resource
                     ->label('Upper Title')
                     ->maxValue(50)
                     ->live(onBlur: true),
-                Forms\Components\MarkdownEditor::make('description')
-                    ->label('News')
+                Forms\Components\MarkdownEditor::make('news_body')
+                    ->label('News Body')
                     ->default(null)
                     ->columnSpan('full'),
                 Forms\Components\MarkdownEditor::make('summery')

@@ -11,10 +11,10 @@ return new class() extends Migration
         Schema::create('tags', function (Blueprint $table) {
             $table->id();
 
-            $table->json('title');
-            $table->json('slug');
-            $table->text('color', 10)->nullable();
-            $table->boolean('language')->default(false);
+            $table->string('title');
+            $table->string('slug');
+            $table->string('color', 10)->nullable();
+            $table->enum('language', ['en', 'bn'])->default('en');
             $table->boolean('status')->default(true);
             $table->string('type')->nullable();
 

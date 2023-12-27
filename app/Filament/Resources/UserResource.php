@@ -42,9 +42,13 @@ class UserResource extends Resource
                     ->password()
                     ->required()
                     ->maxLength(255),
-                Select::make('roles')
+                Select::make('role')
                     // ->multiple()
-                    ->relationship('roles', 'name')
+                    ->options([
+                        'Super Admin' => 'Super Admin',
+                        'editor' => 'Editor',
+                        'reporter' => 'Reporter'
+                    ])
                     ->preload()
             ]);
     }

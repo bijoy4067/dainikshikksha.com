@@ -17,7 +17,7 @@ return new class() extends Migration
             $table->id();
             $table->string('title');
             $table->boolean('status')->default(false);
-            $table->boolean('language')->default(false);
+            $table->enum('language', ['en', 'bn'])->default('en');
 
             $table->string('seo_title', 60)->nullable();
             $table->string('seo_description', 160)->nullable();
