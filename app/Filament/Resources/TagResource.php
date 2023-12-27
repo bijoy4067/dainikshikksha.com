@@ -84,7 +84,7 @@ class TagResource extends Resource
                     ->getStateUsing(fn (Tag $record): string => $record->language == 'en' ? 'en' : 'bn')
                     ->badge()
                     ->color(fn (Tag $record): string => $record->language == 'en' ? 'success' : 'warning'),
-                Tables\Columns\IconColumn::make('status')
+                Tables\Columns\IconColumn::make('active')
                     ->label('Active')
                     ->boolean(),
                 Tables\Columns\TextColumn::make('updated_at')

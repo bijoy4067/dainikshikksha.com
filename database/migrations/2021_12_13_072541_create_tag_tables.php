@@ -15,7 +15,7 @@ return new class() extends Migration
             $table->string('slug');
             $table->string('color', 10)->nullable();
             $table->enum('language', ['en', 'bn'])->default('en');
-            $table->boolean('status')->default(true);
+            $table->boolean('active')->default(true);
             $table->string('type')->nullable();
 
             $table->timestamps();
