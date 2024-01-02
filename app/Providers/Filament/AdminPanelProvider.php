@@ -17,8 +17,7 @@ use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
-use Althinect\FilamentSpatieRolesPermissions\FilamentSpatieRolesPermissionsPlugin;
-use DutchCodingCompany\FilamentSocialite\FilamentSocialitePlugin;
+use RalphJSmit\Filament\MediaLibrary\FilamentMediaLibrary;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -57,9 +56,9 @@ class AdminPanelProvider extends PanelProvider
             ->authMiddleware([
                 Authenticate::class,
             ])
-            ->plugin(FilamentSpatieRolesPermissionsPlugin::make())
-            ->plugin(FilamentSocialitePlugin::make())
             ->profile()
-            ->globalSearch(false);
+            ->globalSearch(false)
+            ->viteTheme('resources/css/filament/admin/theme.css')
+            ->plugin(FilamentMediaLibrary::make()->slug('admin/media-library'));
     }
 }

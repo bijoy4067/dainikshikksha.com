@@ -11,10 +11,9 @@ use Filament\Notifications\Notification;
 use Filament\Resources\Resource as FResource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Tables\Columns\ColorColumn;
-use Filament\Tables\Columns\ImageColumn;
-use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
+use RalphJSmit\Filament\MediaLibrary\Forms\Components\MediaPicker;
+use RalphJSmit\Filament\MediaLibrary\Tables\Columns\MediaColumn;
 
 class AuthorResource extends FResource
 {
@@ -39,10 +38,9 @@ class AuthorResource extends FResource
                 ColorPicker::make('color'),
                 Forms\Components\MarkdownEditor::make('bio')
                     ->columnSpan('full'),
-
-                SpatieMediaLibraryFileUpload::make('photo')
-                    ->collection('authors')
-                    ->responsiveImages(),
+                MediaPicker::make('photo_id')
+                    ->label('Choose Photo')
+                    ->required(),
                 Forms\Components\Toggle::make('status')
                     ->label('Active')
                     ->default(true)
@@ -55,7 +53,6 @@ class AuthorResource extends FResource
                     ])
                     ->default('en')
                     ->id('language'),
-                // ->columnSpan('full'),
             ]);
     }
 
@@ -63,10 +60,9 @@ class AuthorResource extends FResource
     {
         return $table
             ->columns([
-                SpatieMediaLibraryImageColumn::make('photo')
-                    ->collection('authors')
-                    ->conversion('thumb')
-                    ->circular(),
+                MediaColumn::make('photo')
+                    ->circular()
+                    ->size(40),
                 Tables\Columns\TextColumn::make('title')
                     ->searchable()
                     ->sortable()

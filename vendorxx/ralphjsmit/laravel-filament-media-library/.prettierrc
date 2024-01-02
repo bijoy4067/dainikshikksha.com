@@ -1,0 +1,22 @@
+{
+    "plugins": [
+        "./node_modules/prettier-plugin-blade/"
+    ],
+    "overrides": [
+        {
+            "files": [
+                "*.blade.php",
+                "*.json"
+            ],
+            "options": {
+                "parser": "blade"
+            }
+        }
+    ],
+    "semi": false,
+    "singleQuote": true,
+    "tailwindConfig": "./tailwind.config.js",
+    "trailingComma": "all",
+    "useTabs": false,
+    "printWidth": 120
+}

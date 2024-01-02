@@ -1,0 +1,76 @@
+{
+    "name": "oddvalue/laravel-drafts",
+    "description": "A simple, drop-in drafts/revisions system for Laravel models",
+    "keywords": [
+        "oddvalue",
+        "laravel",
+        "drafts",
+        "revisions"
+    ],
+    "homepage": "https://github.com/oddvalue/laravel-drafts",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "jim",
+            "email": "jim@oddvalue.co.uk",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^8.0",
+        "doctrine/dbal": "^3.3",
+        "illuminate/contracts": "^9.0|^10.0",
+        "spatie/laravel-package-tools": "^1.9.2"
+    },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^3.8",
+        "nunomaduro/collision": "^6.0",
+        "nunomaduro/larastan": "^2.0.1",
+        "orchestra/testbench": "^7.0|^8.0",
+        "pestphp/pest": "^1.21",
+        "pestphp/pest-plugin-laravel": "^1.1|^2.0",
+        "phpstan/extension-installer": "^1.1",
+        "phpstan/phpstan-deprecation-rules": "^1.0",
+        "phpstan/phpstan-phpunit": "^1.0",
+        "phpunit/phpunit": "^9.5",
+        "roave/security-advisories": "dev-latest",
+        "spatie/pest-plugin-test-time": "^1.1",
+        "spatie/ray": "^1.37"
+    },
+    "autoload": {
+        "psr-4": {
+            "Oddvalue\\LaravelDrafts\\": "src",
+            "Oddvalue\\LaravelDrafts\\Database\\Factories\\": "database/factories"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Oddvalue\\LaravelDrafts\\Tests\\": "tests"
+        }
+    },
+    "scripts": {
+        "analyse": "vendor/bin/phpstan analyse",
+        "test": "vendor/bin/pest",
+        "test-coverage": "vendor/bin/pest --coverage",
+        "format": "vendor/bin/php-cs-fixer fix --allow-risky=yes"
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true,
+            "phpstan/extension-installer": true
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Oddvalue\\LaravelDrafts\\LaravelDraftsServiceProvider"
+            ],
+            "aliases": {
+                "LaravelDrafts": "Oddvalue\\LaravelDrafts\\Facades\\LaravelDrafts"
+            }
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

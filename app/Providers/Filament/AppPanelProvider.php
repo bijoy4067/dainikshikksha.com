@@ -17,6 +17,7 @@ use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use RalphJSmit\Filament\MediaLibrary\FilamentMediaLibrary;
 
 class AppPanelProvider extends PanelProvider
 {
@@ -47,6 +48,7 @@ class AppPanelProvider extends PanelProvider
             ])
             ->authMiddleware([
                 Authenticate::class,
-            ]);
+            ])
+            ->plugin(FilamentMediaLibrary::make()->slug('admin/media-library'));
     }
 }

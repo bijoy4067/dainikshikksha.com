@@ -5,18 +5,19 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\InteractsWithMedia;
-use Guava\FilamentDrafts\Concerns\HasDrafts;
 use Spatie\MediaLibrary\HasMedia;
 
 class News extends Model implements HasMedia
 {
-    use HasFactory, InteractsWithMedia, HasDrafts;
+    use HasFactory, InteractsWithMedia;
     protected $table = 'news';
 
     protected $casts = [
         'category_id' => 'array',
         'tag_id' => 'array',
         'lead_position' => 'array',
+        'featured_image' => 'array',
+        'social_featured_image' => 'array',
     ];
 
     public function author()
@@ -37,5 +38,17 @@ class News extends Model implements HasMedia
     public function user()
     {
         return $this->belongsTo(User::class, 'created_by', 'id');
+    }
+
+    public function news_category()
+    {
+        // return $this->belongsToMany(
+        //     related: Category::class,
+        //     table: 'news_category',
+        //     foreignPivotKey: 'category_id',
+        //     relatedPivotKey: 'news_id'
+        // );
+
+        return $this->belongsTo(NewsCategory::class, 'news_id', 'id');
     }
 }

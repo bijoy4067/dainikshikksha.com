@@ -16,9 +16,9 @@ return new class() extends Migration
         Schema::create('authors', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->string('photo')->nullable();
             $table->longText('bio')->nullable();
             $table->text('color', 10)->nullable();
+            $table->integer('photo_id')->nullable();
             $table->boolean('status')->default(true);
             $table->enum('language', ['en', 'bn'])->default('en');
             $table->timestamps();

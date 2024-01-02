@@ -21,6 +21,9 @@ return new class extends Migration
             $table->text('news_body')->nullable();
             $table->text('summery')->nullable();
             $table->text('social_summery')->nullable();
+            //image
+            $table->string('featured_image')->nullable();
+            $table->string('social_featured_image')->nullable();
 
             $table->json('author_id')->nullable();
             // $table->foreign('author_id')->references('id')->on('authors')->onDelete('cascade');
@@ -39,8 +42,29 @@ return new class extends Migration
             $table->boolean('show_updated_at')->default(1);
             $table->boolean('show_featured_image')->default(1);
             $table->enum('language', ['en', 'bn'])->default('en');
+            $table->boolean('is_published')->default(false);
+            $table->timestamps();
+        });
 
-            $table->drafts();
+        Schema::create('news_category', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('news_id');
+            // $table->foreign('news_id')->references('id')->on('news')->onDelete('cascade');
+
+            $table->foreignId('category_id');
+            // $table->foreign('comment_id')->references('id')->on('comments')->onDelete('cascade');
+
+            $table->timestamps();
+        });
+
+        Schema::create('news_tags', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('news_id');
+            // $table->foreign('news_id')->references('id')->on('news')->onDelete('cascade');
+
+            $table->foreignId('tag_id');
+            // $table->foreign('tag_id')->references('id')->on('tags')->onDelete('cascade');
+
             $table->timestamps();
         });
     }

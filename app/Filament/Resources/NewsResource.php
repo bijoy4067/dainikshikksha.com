@@ -3,28 +3,30 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\NewsResource\Pages;
-use App\Filament\Resources\NewsResource\RelationManagers;
+use App\Models\Author;
+use App\Models\Category;
 use App\Models\News;
+use App\Models\News_Comments;
+use App\Models\Tag;
 use Filament\Forms;
 use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Select;
-use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
+use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
+use Filament\Forms\Get;
 use Filament\Resources\Resource;
 use Filament\Tables;
-use Filament\Tables\Columns\Column;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Guava\FilamentDrafts\Admin\Resources\Concerns\Draftable;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\SelectFilter;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
+use RalphJSmit\Filament\MediaLibrary\Forms\Components\MediaPicker;
 
 class NewsResource extends Resource
 {
-    use Draftable;
     protected static ?string $model = News::class;
     protected static ?string $slug = 'admin/news';
 
@@ -74,7 +76,7 @@ class NewsResource extends Resource
                     ->multiple()
                     ->relationship(name: 'category', titleAttribute: 'title')
                     ->preload(),
-                Select::make('tags_id')
+                Select::make('tag_id')
                     ->multiple()
                     ->relationship(name: 'tags', titleAttribute: 'title')
                     ->preload(),
@@ -91,14 +93,12 @@ class NewsResource extends Resource
                             $set('lead_position', $leadPosition);
                         }
                     }),
-                SpatieMediaLibraryFileUpload::make('featured_image')
-                    // ->multiple()
-                    ->collection('featured_image')
-                    ->responsiveImages(),
-                SpatieMediaLibraryFileUpload::make('social_featured_image')
-                    // ->multiple()
-                    ->collection('social_featured_image')
-                    ->responsiveImages(),
+                MediaPicker::make('featured_image')
+                    ->multiple()
+                    ->label('Featured Image'),
+                MediaPicker::make('social_featured_image')
+                    ->multiple()
+                    ->label('Social Featured Image'),
                 Checkbox::make('show_created_at')
                     ->id('show_created_at')
                     ->label('Show Created At'),
@@ -111,6 +111,12 @@ class NewsResource extends Resource
                     ->id('show_featured_image')
                     ->label('Show Featured Image')
                     ->inline(),
+                Toggle::make('is_published')
+                    ->label('Publish')
+                    ->onIcon('heroicon-m-check-circle')
+                    ->onColor('success')
+                    ->offIcon('heroicon-m-x-circle')
+                    ->offColor('warning'),
                 \Filament\Forms\Components\Select::make('language')
                     ->label('Language')
                     ->options([
@@ -151,15 +157,22 @@ class NewsResource extends Resource
                 SelectFilter::make('category_id')
                     ->label('category')
                     ->multiple()
-                    ->relationship('category', 'title'),
+                // ->relationship('news_category', 'title')
+                // ->attribute('category.title')
+                // ->apply(function (Builder $query, array $data): Builder {
+                //     dd($query, $data);
+                // })
+                ,
                 SelectFilter::make('tag_id')
+                    ->options(Tag::all()->pluck('id', 'title'))
                     ->label('Tag')
                     ->multiple()
-                    ->relationship('tag', 'title'),
+                    ->relationship('tags', 'tag_id')
+                    ->attribute('tags.title'),
                 SelectFilter::make('author_id')
                     ->label('Author')
-                    ->relationship('author', 'title')
-                // ->attribute('category_id'),
+                    ->options(Author::all()->pluck('id', 'title'))
+                    ->attribute('author.title'),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
