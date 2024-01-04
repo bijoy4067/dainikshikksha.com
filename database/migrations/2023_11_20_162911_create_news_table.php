@@ -46,24 +46,18 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        Schema::create('news_category', function (Blueprint $table) {
+        Schema::create('category_news', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('news_id');
-            // $table->foreign('news_id')->references('id')->on('news')->onDelete('cascade');
-
             $table->foreignId('category_id');
-            // $table->foreign('comment_id')->references('id')->on('comments')->onDelete('cascade');
+            $table->foreignId('news_id');
 
             $table->timestamps();
         });
 
-        Schema::create('news_tags', function (Blueprint $table) {
+        Schema::create('news_tag', function (Blueprint $table) {
             $table->id();
             $table->foreignId('news_id');
-            // $table->foreign('news_id')->references('id')->on('news')->onDelete('cascade');
-
             $table->foreignId('tag_id');
-            // $table->foreign('tag_id')->references('id')->on('tags')->onDelete('cascade');
 
             $table->timestamps();
         });

@@ -47,7 +47,7 @@ class CategoryResource extends Resource
                 TextInput::make('seo_title'),
                 \Filament\Forms\Components\Textarea::make('seo_description')
                     ->columnSpan('full'),
-                Forms\Components\Toggle::make('status')
+                Forms\Components\Toggle::make('active')
                     ->label('Active')
                     ->default(true)
                     ->columnSpan('full'),
@@ -74,7 +74,7 @@ class CategoryResource extends Resource
                     ->badge()
                     ->color(fn (Category $record): string => $record->language == 'en' ? 'success' : 'warning')
                     ->sortable(),
-                Tables\Columns\IconColumn::make('status')
+                Tables\Columns\IconColumn::make('active')
                     ->label('Active')
                     ->boolean(),
                 Tables\Columns\TextColumn::make('updated_at')
@@ -82,7 +82,6 @@ class CategoryResource extends Resource
                     ->date(),
             ])
             ->filters([
-
                 SelectFilter::make('language')
                     ->options([
                         'en' => 'English',
@@ -112,7 +111,7 @@ class CategoryResource extends Resource
             ->schema([
                 TextEntry::make('name'),
                 TextEntry::make('slug'),
-                IconEntry::make('status')
+                IconEntry::make('active')
                     ->label('Status')
                     ->boolean(),
                 TextEntry::make('updated_at')

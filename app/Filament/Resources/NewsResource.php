@@ -3,10 +3,9 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\NewsResource\Pages;
+use App\Filament\Resources\NewsResource\RelationManagers\CategoryRelationManager;
 use App\Models\Author;
-use App\Models\Category;
 use App\Models\News;
-use App\Models\News_Comments;
 use App\Models\Tag;
 use Filament\Forms;
 use Filament\Forms\Components\Checkbox;
@@ -17,12 +16,13 @@ use Filament\Forms\Form;
 use Filament\Forms\Get;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Actions\BulkAction;
 use Filament\Tables\Table;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Filters\TernaryFilter;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
 use RalphJSmit\Filament\MediaLibrary\Forms\Components\MediaPicker;
 
 class NewsResource extends Resource
@@ -111,12 +111,9 @@ class NewsResource extends Resource
                     ->id('show_featured_image')
                     ->label('Show Featured Image')
                     ->inline(),
-                Toggle::make('is_published')
+                Checkbox::make('is_published')
                     ->label('Publish')
-                    ->onIcon('heroicon-m-check-circle')
-                    ->onColor('success')
-                    ->offIcon('heroicon-m-x-circle')
-                    ->offColor('warning'),
+                    ->inline(),
                 \Filament\Forms\Components\Select::make('language')
                     ->label('Language')
                     ->options([
@@ -149,6 +146,8 @@ class NewsResource extends Resource
             ->filters([
                 Filter::make('title')
                     ->label('Title'),
+                Filter::make('is_published')
+                    ->label('Is Published'),
                 SelectFilter::make('language')
                     ->options([
                         'en' => 'English',
@@ -157,18 +156,13 @@ class NewsResource extends Resource
                 SelectFilter::make('category_id')
                     ->label('category')
                     ->multiple()
-                // ->relationship('news_category', 'title')
-                // ->attribute('category.title')
-                // ->apply(function (Builder $query, array $data): Builder {
-                //     dd($query, $data);
-                // })
-                ,
+                    ->relationship('category', 'title')
+                    ->preload(),
                 SelectFilter::make('tag_id')
-                    ->options(Tag::all()->pluck('id', 'title'))
                     ->label('Tag')
                     ->multiple()
                     ->relationship('tags', 'tag_id')
-                    ->attribute('tags.title'),
+                    ->preload(),
                 SelectFilter::make('author_id')
                     ->label('Author')
                     ->options(Author::all()->pluck('id', 'title'))
@@ -188,7 +182,7 @@ class NewsResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            // CategoryRelationManager::class,
         ];
     }
 

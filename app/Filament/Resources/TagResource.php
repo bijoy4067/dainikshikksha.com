@@ -53,7 +53,7 @@ class TagResource extends Resource
                     ->required()
                     ->unique(Tag::class, 'slug', ignoreRecord: true),
                 ColorPicker::make('color'),
-                Forms\Components\Toggle::make('status')
+                Forms\Components\Toggle::make('active')
                     ->label('Active')
                     ->default(true)
                     ->columnSpan('full'),

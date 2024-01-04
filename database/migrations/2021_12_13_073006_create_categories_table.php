@@ -16,7 +16,7 @@ return new class() extends Migration
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->boolean('status')->default(false);
+            $table->boolean('active')->default(false);
             $table->enum('language', ['en', 'bn'])->default('en');
 
             $table->string('seo_title', 60)->nullable();

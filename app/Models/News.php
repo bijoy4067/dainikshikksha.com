@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\HasMedia;
 
@@ -25,14 +27,14 @@ class News extends Model implements HasMedia
         return $this->belongsTo(Author::class, 'author_id', 'id');
     }
 
-    public function category()
+    public function category(): BelongsToMany
     {
-        return $this->belongsTo(Category::class, 'category_id', 'id');
+        return $this->belongsToMany(Category::class);
     }
 
-    public  function tags()
+    public  function tags(): BelongsToMany
     {
-        return $this->belongsTo(Tag::class, 'tag_id', 'id');
+        return $this->belongsToMany(Tag::class);
     }
 
     public function user()
@@ -40,15 +42,8 @@ class News extends Model implements HasMedia
         return $this->belongsTo(User::class, 'created_by', 'id');
     }
 
-    public function news_category()
-    {
-        // return $this->belongsToMany(
-        //     related: Category::class,
-        //     table: 'news_category',
-        //     foreignPivotKey: 'category_id',
-        //     relatedPivotKey: 'news_id'
-        // );
-
-        return $this->belongsTo(NewsCategory::class, 'news_id', 'id');
-    }
+    // public function searchCategory(): BelongsToMany
+    // {
+    //     return $this->belongsToMany(Category::class);
+    // }
 }
