@@ -17,11 +17,11 @@ example:
 next paste following command in your terminal
 
 ```bash
-php artisan composer:install
+composer install
 ```
 
 ```bash
-php artisan composer:update
+composer update
 ```
 
 ```bash
