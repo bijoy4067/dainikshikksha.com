@@ -7,6 +7,7 @@ Install my-project with npm
 ```
 
 Go to your project directory
+setup your .env file
 Then move auth.json file in your .composer directory
 example:
 
@@ -37,7 +38,7 @@ npm install
 ```
 
 ```bash
-php run build
+npm run build
 ```
 
 ```bash
