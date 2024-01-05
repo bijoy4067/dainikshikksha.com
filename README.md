@@ -17,19 +17,19 @@ example:
 next paste following command in your terminal
 
 ```bash
-php artisan cache:clear
-```
-
-```bash
-php artisan optimize:clear
-```
-
-```bash
 php artisan composer:install
 ```
 
 ```bash
 php artisan composer:update
+```
+
+```bash
+php artisan cache:clear
+```
+
+```bash
+php artisan optimize:clear
 ```
 
 ```bash
