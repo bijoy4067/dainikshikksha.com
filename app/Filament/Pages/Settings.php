@@ -3,6 +3,7 @@
 namespace App\Filament\Pages;
 
 use App\Filament\Resources\MenuResource\Widgets\MenuWidget;
+use App\Models\User;
 // use App\Models\Settings as ModelsSettings;
 use App\Settings\GeneralSettings;
 use Filament\Forms;
@@ -171,12 +172,5 @@ class Settings extends SettingsPage
                     ])
                     ->columnSpan(2)
             ]);
-    }
-    protected function getFooterWidgets(): array
-    {
-        return [
-            //Filament tree menu weidget
-            //MenuWidget::class
-        ];
     }
 }

@@ -23,6 +23,7 @@ class DatabaseSeeder extends Seeder
         $user = $this->withProgressBar(1, fn () => User::factory(1)->create([
             'name' => 'Demo User',
             'email' => 'admin@filamentphp.com',
+            'role' => 'Super Admin'
         ]));
         $this->command->info('Admin user created.');
     }
