@@ -2,16 +2,12 @@
 
 namespace App\Filament\Pages;
 
-use App\Filament\Resources\MenuResource\Widgets\MenuWidget;
-use App\Models\User;
-// use App\Models\Settings as ModelsSettings;
 use App\Settings\GeneralSettings;
 use Filament\Forms;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Pages\SettingsPage;
-use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Tabs;
 use Filament\Forms\Components\Textarea;
@@ -21,8 +17,8 @@ class Settings extends SettingsPage
     protected static ?string $navigationIcon = 'heroicon-o-cog-6-tooth';
     protected static ?string $slug = 'admin/settings';
     protected static string $settings = GeneralSettings::class;
-    // protected static ?string $model = ModelsSettings::class;
 
+    protected static bool $canAccessPanel = false;
     public function form(Form $form): Form
     {
         return $form
@@ -172,5 +168,18 @@ class Settings extends SettingsPage
                     ])
                     ->columnSpan(2)
             ]);
+    }
+    public function mount(): void
+    {
+        $user = auth()->user();
+        if ($user->hasRole(['Super Admin'])) {
+            self::$canAccessPanel = true;
+        } else {
+            abort_unless($this->user->hasRole(['Super Admin']), 403);
+        }
+    }
+    public static function isDiscovered(): bool
+    {
+        return self::$canAccessPanel;
     }
 }

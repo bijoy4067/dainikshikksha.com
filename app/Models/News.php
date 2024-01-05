@@ -41,9 +41,4 @@ class News extends Model implements HasMedia
     {
         return $this->belongsTo(User::class, 'created_by', 'id');
     }
-
-    // public function searchCategory(): BelongsToMany
-    // {
-    //     return $this->belongsToMany(Category::class);
-    // }
 }

@@ -25,14 +25,10 @@ return new class extends Migration
             $table->string('featured_image')->nullable();
             $table->string('social_featured_image')->nullable();
 
-            $table->json('author_id')->nullable();
-            // $table->foreign('author_id')->references('id')->on('authors')->onDelete('cascade');
-
-            $table->json('category_id')->nullable();
-            // $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
-
-            $table->json('tag_id')->nullable();
-            // $table->foreign('tag_id')->references('id')->on('tags')->onDelete('cascade');
+            $table->foreignId('author_id')->constrained(
+                table: 'authors',
+                indexName: 'id'
+            );
 
             $table->unsignedBigInteger('updated_by');
             $table->foreign('updated_by')->references('id')->on('users')->onDelete('cascade');

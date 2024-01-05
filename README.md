@@ -42,6 +42,10 @@ npm run build
 ```
 
 ```bash
+php artisan storage:link
+```
+
+```bash
 php artisan migrate
 ```
 

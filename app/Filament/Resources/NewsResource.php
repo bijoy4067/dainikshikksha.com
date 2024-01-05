@@ -161,7 +161,7 @@ class NewsResource extends Resource
                 SelectFilter::make('tag_id')
                     ->label('Tag')
                     ->multiple()
-                    ->relationship('tags', 'tag_id')
+                    ->relationship('tags', 'title')
                     ->preload(),
                 SelectFilter::make('author_id')
                     ->label('Author')

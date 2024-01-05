@@ -22,4 +22,17 @@ class GeneralSettings extends Settings
     {
         return 'general';
     }
+
+    public function mount()
+    {
+        abort_unless(request()->user()->can('view_custom_page'), 403);
+    }
+
+    public static function authorization()
+    {
+        dd('asdfsdf');
+        return [
+            Roles\Manager::allow(),
+        ];
+    }
 }
