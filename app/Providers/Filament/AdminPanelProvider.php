@@ -3,6 +3,7 @@
 namespace App\Providers\Filament;
 
 use App\Filament\Pages\Auth\Login;
+use App\Filament\Resources\ProfileResource;
 use App\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
@@ -56,7 +57,7 @@ class AdminPanelProvider extends PanelProvider
             ->authMiddleware([
                 Authenticate::class,
             ])
-            ->profile()
+            // ->profile(ProfileResource::class)
             ->globalSearch(false)
             ->viteTheme('resources/css/filament/admin/theme.css')
             ->plugin(FilamentMediaLibrary::make()->slug('admin/media-library'));

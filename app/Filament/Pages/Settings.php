@@ -177,9 +177,17 @@ class Settings extends SettingsPage
         } else {
             abort_unless($this->user->hasRole(['Super Admin']), 403);
         }
+
+        self::isDiscovered();
     }
     public static function isDiscovered(): bool
     {
+        // dd(self::$canAccessPanel, 'asdfsd', $user = auth()->user());
         return self::$canAccessPanel;
     }
+
+    // public function mount(): void
+    // {
+    //     static::authorizeResourceAccess();
+    // }
 }

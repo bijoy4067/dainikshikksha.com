@@ -41,9 +41,9 @@ class UserResource extends Resource
                 Forms\Components\TextInput::make('password')
                     ->password()
                     ->required()
-                    ->maxLength(255),
+                    ->maxLength(255)
+                    ->dehydrateStateUsing(fn (string $state): string => \Hash::make($state)),
                 Select::make('role')
-                    // ->multiple()
                     ->options([
                         'Super Admin' => 'Super Admin',
                         'editor' => 'Editor',

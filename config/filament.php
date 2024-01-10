@@ -40,15 +40,18 @@ return [
 
     'default_filesystem_disk' => env('FILAMENT_FILESYSTEM_DISK', 'public'),
     'plugins' => [
-        FilamentSocialitePlugin::class,
+        // FilamentSocialitePlugin::class,
     ],
-
+    'layout' => [
+        'sidebar' => [
+            'is_collapsible_on_desktop' => true,
+        ],
+    ],
     // ...
 
     'admin_panel' => [
         'providers' => [
             AdminPanel\AdminPanelServiceProvider::class,
-            FilamentSocialitePluginServiceProvider::class,
         ],
     ],
 ];

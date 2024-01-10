@@ -8,6 +8,7 @@ use App\Models\Tag;
 use Faker\Core\Color;
 use Filament\Forms;
 use Filament\Forms\Components\ColorPicker;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -19,19 +20,9 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class TagResource extends Resource
 {
-    // protected static ?string $model = Tag::class;
-
-    // protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
-    // protected static ?string $navigationGroup = 'User';
-    // protected static ?int $navigationSort = 2;
-
     protected static ?string $model =   Tag::class;
 
     protected static ?string $slug = 'admin/tag';
-
-    // protected static ?string $recordTitleAttribute = 'name';
-
-    protected static ?string $navigationGroup = '';
 
     protected static ?string $navigationIcon = 'heroicon-m-squares-plus';
 
@@ -57,7 +48,7 @@ class TagResource extends Resource
                     ->label('Active')
                     ->default(true)
                     ->columnSpan('full'),
-                \Filament\Forms\Components\Select::make('language')
+                Select::make('language')
                     ->label('Language')
                     ->options([
                         'en' => 'English',
