@@ -16,6 +16,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Support\Str;
 use Filament\Forms\Components\ColorPicker;
+use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\TextInput;
 use Filament\Tables\Columns\ColorColumn;
 use Filament\Tables\Columns\Column;
@@ -59,6 +60,8 @@ class CategoryResource extends Resource
                     ])
                     ->default('en')
                     ->id('language'),
+                Hidden::make('created_by')->default(auth()->user()->id),
+
             ]);
     }
 

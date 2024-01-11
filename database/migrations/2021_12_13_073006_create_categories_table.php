@@ -21,6 +21,8 @@ return new class() extends Migration
 
             $table->string('seo_title', 60)->nullable();
             $table->string('seo_description', 160)->nullable();
+            $table->foreignId('created_by')->nullable()->constrained('users');
+
             $table->timestamps();
         });
     }

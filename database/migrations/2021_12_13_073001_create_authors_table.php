@@ -21,6 +21,7 @@ return new class() extends Migration
             $table->integer('photo_id')->nullable();
             $table->boolean('status')->default(true);
             $table->enum('language', ['en', 'bn'])->default('en');
+            $table->foreignId('created_by')->nullable()->constrained('users');
             $table->timestamps();
         });
     }

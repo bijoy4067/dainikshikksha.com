@@ -17,6 +17,7 @@ return new class() extends Migration
             $table->enum('language', ['en', 'bn'])->default('en');
             $table->boolean('active')->default(true);
             $table->string('type')->nullable();
+            $table->foreignId('created_by')->nullable()->constrained('users');
 
             $table->timestamps();
         });

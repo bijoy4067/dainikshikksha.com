@@ -8,6 +8,7 @@ use App\Models\Tag;
 use Faker\Core\Color;
 use Filament\Forms;
 use Filament\Forms\Components\ColorPicker;
+use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -56,6 +57,8 @@ class TagResource extends Resource
                     ])
                     ->default('en')
                     ->id('language'),
+                Hidden::make('created_by')->default(auth()->user()->id),
+
             ]);
     }
 

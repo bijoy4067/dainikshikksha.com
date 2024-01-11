@@ -6,6 +6,7 @@ use App\Filament\Resources\Blog\AuthorResource\Pages;
 use App\Models\Author;
 use Filament\Forms;
 use Filament\Forms\Components\ColorPicker;
+use Filament\Forms\Components\Hidden;
 use Filament\Forms\Form;
 use Filament\Notifications\Notification;
 use Filament\Resources\Resource as FResource;
@@ -53,6 +54,7 @@ class AuthorResource extends FResource
                     ])
                     ->default('en')
                     ->id('language'),
+                Hidden::make('created_by')->default(auth()->user()->id),
             ]);
     }
 
