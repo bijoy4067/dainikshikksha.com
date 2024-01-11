@@ -9,6 +9,7 @@ use Filament\Forms\Contracts\HasForms;
 
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Form;
+use Filament\Notifications\Notification;
 use Filament\Support\Exceptions\Halt;
 
 class Profile extends Page implements HasForms
@@ -44,9 +45,7 @@ class Profile extends Page implements HasForms
                 TextInput::make('password')
                     ->label('Change Password')
                     ->password()
-                    ->required()
                     ->maxLength(255)
-                    ->dehydrateStateUsing(fn (string $state): string => \Hash::make($state)),
             ])
             ->columns(2)
             ->statePath('data');
@@ -65,9 +64,17 @@ class Profile extends Page implements HasForms
     {
         try {
             $data = $this->form->getState();
+            if ($data['password'] == null) {
+                $data['password'] = auth()->user()->password;
+            } else {
+                $data['password'] = \Hash::make($data['password']);
+            }
 
             if (auth()->user()->update($data)) {
-                $this->redirect->route('filament.admin.auth.login');
+                Notification::make()
+                    ->title('Profile Update Successfully')
+                    ->success()
+                    ->send();
             }
         } catch (Halt $exception) {
             dd($exception);

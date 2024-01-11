@@ -29,7 +29,7 @@ class AuthServiceProvider extends ServiceProvider
         Tag::class => TagPolicy::class,
         News::class => NewsPolicy::class,
         Author::class => AuthorPolicy::class,
-        // Settings::class => SettingsPolicy::class,
+        Settings::class => SettingsPolicy::class,
     ];
 
     /**

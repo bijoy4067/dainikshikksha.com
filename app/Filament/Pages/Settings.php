@@ -18,7 +18,7 @@ class Settings extends SettingsPage
     protected static ?string $slug = 'admin/settings';
     protected static string $settings = GeneralSettings::class;
 
-    protected static bool $canAccessPanel = false;
+    // protected static bool $canAccessPanel = false;
     public function form(Form $form): Form
     {
         return $form
@@ -167,24 +167,26 @@ class Settings extends SettingsPage
                             ])
                     ])
                     ->columnSpan(2)
-            ]);
+            ])
+            ->disabled(!auth()->user()->hasRole(['Super Admin']));
     }
-    public function mount(): void
-    {
-        $user = auth()->user();
-        if ($user->hasRole(['Super Admin'])) {
-            self::$canAccessPanel = true;
-        } else {
-            abort_unless($this->user->hasRole(['Super Admin']), 403);
-        }
 
-        self::isDiscovered();
-    }
-    public static function isDiscovered(): bool
-    {
-        // dd(self::$canAccessPanel, 'asdfsd', $user = auth()->user());
-        return self::$canAccessPanel;
-    }
+    // public function mount(): void
+    // {
+    //     $user = auth()->user();
+    //     if ($user->hasRole(['Super Admin'])) {
+    //         self::$canAccessPanel = true;
+    //     } else {
+    //         abort_unless($this->user->hasRole(['Super Admin']), 403);
+    //     }
+
+    //     self::isDiscovered();
+    // }
+    // public static function isDiscovered(): bool
+    // {
+    //     // dd(self::$canAccessPanel, 'asdfsd', $user = auth()->user());
+    //     return self::$canAccessPanel;
+    // }
 
     // public function mount(): void
     // {
