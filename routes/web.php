@@ -1,16 +1,13 @@
 <?php
 
+use App\Http\Controllers\SocialiteController;
 use App\Livewire\Form;
 use App\Models\User;
+use Illuminate\Support\Facades\Route;
 
-\Illuminate\Support\Facades\Route::get('form', Form::class);
-\Illuminate\Support\Facades\Route::get('test', function () {
-    // Role::create(['name' => 'editor']);
-    $user = User::find(3);
-    $user->assignRole('editor');
-    dd($user, User::all());
-});
+Route::get('form', Form::class);
 
-\Illuminate\Support\Facades\Route::get('/a', function () {
-    return phpinfo();
-});
+Route::get('/auth/{provider}/redirect', [SocialiteController::class, 'redirect'])
+    ->name('socialite.redirect');
+Route::get('/auth/{provider}/callback', [SocialiteController::class, 'callback'])
+    ->name('socialite.callback');

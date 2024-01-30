@@ -47,7 +47,8 @@ class UserResource extends Resource
                     ->options([
                         'Super Admin' => 'Super Admin',
                         'editor' => 'Editor',
-                        'reporter' => 'Reporter'
+                        'reporter' => 'Reporter',
+                        'subscriber' => 'Subscriber',
                     ])
                     ->preload()
             ]);

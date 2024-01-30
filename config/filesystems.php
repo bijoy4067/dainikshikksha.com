@@ -52,7 +52,18 @@ return [
             'endpoint' => env('AWS_ENDPOINT'),
             'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', false),
         ],
-
+        'r2' => [
+            'driver' => 's3',
+            'key' => 'adcbf609db045e45528916ab7db00421',
+            'secret' => '3205d68336840e8e172d4664ff7ea869eddbd0dcf8d85a0b0bb5f161fc2ff31c',
+            'region' => 'us-east-1',
+            'bucket' => 'test',
+            'url' => 'https://cdn.lamith.com',
+            'visibility' => 'public',
+            'endpoint' => 'https://8347a64c4c8af50d587234fbdfd4fdc4.r2.cloudflarestorage.com',
+            'use_path_style_endpoint' => env('CLOUDFLARE_R2_USE_PATH_STYLE_ENDPOINT', false),
+            'throw' => false,
+        ]
     ],
 
     /*

@@ -60,6 +60,10 @@ class AdminPanelProvider extends PanelProvider
             // ->profile(ProfileResource::class)
             ->globalSearch(false)
             ->viteTheme('resources/css/filament/admin/theme.css')
-            ->plugin(FilamentMediaLibrary::make()->slug('admin/media-library'));
+            ->plugin(FilamentMediaLibrary::make()->slug('admin/media-library'))
+            ->renderHook(
+                'panels::auth.login.form.after',
+                fn () => view('auth.socialite.google')
+            );
     }
 }

@@ -11,7 +11,8 @@ use DutchCodingCompany\FilamentSocialite\Facades\FilamentSocialite as FilamentSo
 use DutchCodingCompany\FilamentSocialite\FilamentSocialite;
 use Filament\Support\Facades\FilamentIcon;
 use Filament\Http\Responses\Auth\Contracts\LoginResponse as LoginResponseContract;
-
+use Filament\Facades\Filament;
+use Filament\Navigation\NavigationItem;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -37,7 +38,15 @@ class AppServiceProvider extends ServiceProvider
         if (app()->environment('production')) {
             URL::forceScheme('https');
         }
-
+        Filament::serving(function () {
+            Filament::registerNavigationItems([
+                NavigationItem::make('Settings')
+                    ->url('/admin/settings')
+                    ->icon('heroicon-o-cog-6-tooth')
+                    ->activeIcon('heroicon-s-cog-6-tooth')
+                    ->visible(fn (): bool => auth()->user()->hasRole(['Super Admin'])),
+            ]);
+        });
         FilamentIcon::register([
             'panels::topbar.global-search.field' => 'fas-magnifying-glass',
             'panels::sidebar.group.collapse-button' => 'fas-chevron-up',
