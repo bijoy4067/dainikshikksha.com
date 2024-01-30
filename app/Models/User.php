@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use Filament\Models\Contracts\FilamentUser;
-use Filament\Models\Contracts\HasTenants;
 use Filament\Panel;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -17,7 +16,6 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser
     use HasApiTokens;
     use HasFactory;
     use Notifiable;
-    // use HasTenants;
 
     /**
      * @var array<int, string>
@@ -39,14 +37,8 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser
         return $this->hasRole(['Super Admin', 'editor', 'reporter']);
     }
 
-    // public function getTenants(Panel $panel): array | Collection
-    // {
-    //     return Team::all();
-    // }
-
     public function hasRole($role)
     {
-        // dd($this, $role);
         $can_access = false;
         if (!is_array($role)) {
             return false;

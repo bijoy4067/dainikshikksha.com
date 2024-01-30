@@ -13,7 +13,8 @@ class NewsPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->hasRole(['Super Admin', 'editor', 'reporter']);
+        // dd($user, $user->hasRole('subscriber'));
+        return $user->hasRole(['Super Admin', 'editor', 'reporter', 'subscriber']);
     }
 
     /**
@@ -21,7 +22,7 @@ class NewsPolicy
      */
     public function view(User $user, News $news): bool
     {
-        return $user->hasRole(['Super Admin', 'editor', 'reporter']);
+        return $user->hasRole(['Super Admin', 'editor', 'reporter', 'subscriber']);
     }
 
     /**

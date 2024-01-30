@@ -17,6 +17,7 @@ class Settings extends SettingsPage
     protected static ?string $navigationIcon = 'heroicon-o-cog-6-tooth';
     protected static ?string $slug = 'admin/settings';
     protected static string $settings = GeneralSettings::class;
+    protected static bool $shouldRegisterNavigation = false;
 
     // protected static bool $canAccessPanel = false;
     public function form(Form $form): Form
@@ -167,21 +168,16 @@ class Settings extends SettingsPage
                             ])
                     ])
                     ->columnSpan(2)
-            ])
-            ->disabled(!auth()->user()->hasRole(['Super Admin']));
+            ]);
     }
 
-    // public function mount(): void
-    // {
-    //     $user = auth()->user();
-    //     if ($user->hasRole(['Super Admin'])) {
-    //         self::$canAccessPanel = true;
-    //     } else {
-    //         abort_unless($this->user->hasRole(['Super Admin']), 403);
-    //     }
-
-    //     self::isDiscovered();
-    // }
+    public function mount(): void
+    {
+        $user = auth()->user();
+        if (!$user->hasRole(['Super Admin'])) {
+            abort(403);
+        }
+    }
     // public static function isDiscovered(): bool
     // {
     //     // dd(self::$canAccessPanel, 'asdfsd', $user = auth()->user());
