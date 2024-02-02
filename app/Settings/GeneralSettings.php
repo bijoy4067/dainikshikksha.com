@@ -17,9 +17,19 @@ class GeneralSettings extends Settings
     public $ads_en;
     public $ads_bn;
     public $menu_links_en;
+    public $menu_links_bn;
+    public $social_links_en;
+    public $social_links_bn;
+    public $footer_links_en;
+    public $footer_links_bn;
 
     public static function group(): string
     {
         return 'general';
+    }
+
+    public function mount()
+    {
+        abort_unless(request()->user()->can('view_custom_page'), 403);
     }
 }
