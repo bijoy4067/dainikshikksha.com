@@ -171,13 +171,13 @@ class Settings extends SettingsPage
             ]);
     }
 
-    public function mount(): void
-    {
-        $user = auth()->user();
-        if (!$user->hasRole(['Super Admin'])) {
-            abort(403);
-        }
-    }
+    // public function mount(): void
+    // {
+    //     $user = auth()->user();
+    //     if (!$user->hasRole(['Super Admin'])) {
+    //         abort(403);
+    //     }
+    // }
     // public static function isDiscovered(): bool
     // {
     //     // dd(self::$canAccessPanel, 'asdfsd', $user = auth()->user());
